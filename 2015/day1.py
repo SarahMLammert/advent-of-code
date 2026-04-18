@@ -1,34 +1,39 @@
-'''Day 1
-Help Santa Follow Instructions to Deliver Presents
-
-Santa moves up and down floors based on instructions
-( means up
-) means down
-
-Part 1: Find the floor that the instructions send Santa to
-
-Part 2: Find the position of the character that causes Santa to enter the basement
+'''
+    Day 1
 '''
 
-try:
-    # Variables to keep track of
-    floor = 0 # pylint: disable=C0103
-    char_position = 0 # pylint: disable=C0103
+def day1(file_name):
+    '''
+    Help Santa Follow Instructions to Deliver Presents
 
-    # Open and read the file
-    with open('day1.txt', encoding='utf-8') as file:
-        filetext = file.read()
+    Santa moves up and down floors:
+    ( means up
+    ) means down
 
-    # Follow the instructions
-    for c in filetext:
-        char_position += 1
-        if c == "(":
-            floor += 1
-        elif c == ")":
-            floor -= 1
-        if floor == -1:
-            print(char_position)
-    print(floor)
+    Part 1: Find the floor that the instructions send Santa to
 
-except FileNotFoundError:
-    print('This file does not exist')
+    Part 2: Find the first instruction that causes Santa to enter the basement
+    '''
+
+    try:
+        floor_num = 0
+        found_basement = False
+
+        with open(file_name, encoding='utf-8') as file:
+            for i, ch in enumerate(file.read()):
+                if ch == "(":
+                    floor_num += 1
+                elif ch == ")":
+                    floor_num -= 1
+
+                if floor_num == -1 and not found_basement:
+                    print("First instruction that sends Santa to the basement: ", i)
+                    found_basement = True
+
+        print("Final floor Santa goes to: ", floor_num)
+
+    except FileNotFoundError:
+        print('This file does not exist')
+
+if __name__ == "__main__":
+    day1('day1.txt')
